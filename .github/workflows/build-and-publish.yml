@@ -321,18 +321,18 @@ jobs:
 
     - name: Run Grype vulnerability scanner
       if: github.event_name != 'pull_request'
-      uses: anchore/scan-action@v3
+      id: grype
+      uses: anchore/scan-action@v6
       with:
         image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
         fail-build: false
         output-format: sarif
-        output-file: grype-results.sarif
 
     - name: Upload Grype scan results
       if: github.event_name != 'pull_request'
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: grype-results.sarif
+        sarif_file: ${{ steps.grype.outputs.sarif }}
 
   release:
     needs: [test, build-binaries, build-and-push]
