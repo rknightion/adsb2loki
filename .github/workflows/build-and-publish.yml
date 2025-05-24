@@ -299,7 +299,7 @@ jobs:
 
     - name: Attest container image
       if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-      uses: actions/attest-build-provenance@v1
+      uses: actions/attest-build-provenance@v2
       with:
         subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         subject-digest: ${{ steps.build.outputs.digest }}
@@ -391,7 +391,7 @@ jobs:
         done
 
     - name: Attest release artifacts
-      uses: actions/attest-build-provenance@v1
+      uses: actions/attest-build-provenance@v2
       with:
         subject-path: 'release-files/adsb2loki-*'
 
