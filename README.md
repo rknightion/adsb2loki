@@ -1,5 +1,7 @@
 # adsb2loki
 
+‼️🚨🔔 ALL credit to this goes to @burnettdev (https://github.com/burnettdev/flightaware2loki). For real I can't even write a hello world in Go I just forked this repo and had cursor pimp it to high heaven the actual underlying code is alllllll him
+
 🚀 A Go service that fetches aircraft data from ADS-B sources (like FlightAware's SkyAware) and streams it to Grafana Loki or OpenTelemetry for real-time monitoring and analysis.
 
 ## Features

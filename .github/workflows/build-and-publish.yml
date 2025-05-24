@@ -208,6 +208,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
+        pattern: adsb2loki-*
         path: ./artifacts
 
     - name: Create Release
