@@ -239,3 +239,17 @@ Or with coverage:
 ```bash
 make test-coverage
 ```
+
+## Troubleshooting
+
+### JSON Parsing Errors
+
+If you see errors like:
+```
+json: cannot unmarshal string into Go struct field .aircraft.alt_baro of type int
+```
+
+This is because ADS-B data can contain mixed types for certain fields (e.g., altitude can be a number or the string "ground"). The application handles these cases automatically by accepting both string and numeric values for fields like:
+- `alt_baro` / `alt_geom` - Can be numeric altitude or "ground"
+- `gs` / `ias` / `tas` - Speed fields that might be missing or non-numeric
+- `baro_rate` / `geom_rate` - Rate fields that might be missing or non-numeric

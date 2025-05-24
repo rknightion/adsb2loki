@@ -1,0 +1,27 @@
+{
+  "now": 1748083431.5,
+  "messages": 342834118,
+  "aircraft": [
+    {
+      "hex": "3c4a8c",
+      "type": "adsb_icao",
+      "flight": "DLH400  ",
+      "alt_baro": 34000,
+      "alt_geom": 34725,
+      "gs": 440.7,
+      "lat": 52.525772,
+      "lon": -5.353775,
+      "category": "A5"
+    },
+    {
+      "hex": "ABC123",
+      "flight": "GROUND1",
+      "alt_baro": "ground",
+      "alt_geom": "ground",
+      "gs": 0,
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "category": ""
+    }
+  ]
+} 
