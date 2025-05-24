@@ -152,90 +152,58 @@ This project includes a comprehensive CI/CD pipeline that:
 - **Security**: Scans images for vulnerabilities using Trivy
 - **Tagging**: Supports semantic versioning and branch-based tags
 
+### Enhanced CI Features
+
+The GitHub Actions workflow includes these advanced features:
+
+#### 🧪 Testing & Quality
+- **Test Reporting**: JUnit XML test results displayed in GitHub UI
+- **Coverage Tracking**: Code coverage reports with Codecov integration
+- **PR Comments**: Automatic comments on PRs with test results and coverage
+- **Benchmarks**: Performance benchmarks run on every commit
+- **golangci-lint**: Comprehensive linting with multiple linters
+
+#### 🔐 Security & Supply Chain
+- **Container Signing**: Images signed with cosign for verification
+- **SBOM Generation**: Software Bill of Materials for all artifacts
+- **Dual Vulnerability Scanning**: Both Trivy and Grype scanners
+- **Artifact Attestation**: Cryptographic proof of build provenance
+- **Binary Signing**: Release binaries signed with cosign
+
+#### 📊 Reporting & Metrics
+- **Binary Size Tracking**: Size reports for all platform builds
+- **Test Result Visualization**: Test results shown in PR checks
+- **Coverage Badges**: Dynamic coverage badges (requires GIST_SECRET)
+- **Benchmark History**: Performance tracking over time
+
+#### 🚀 Release Automation
+- **Automatic Changelog**: Generated from conventional commits
+- **Multi-Platform Releases**: Binaries for all supported platforms
+- **Signed Artifacts**: All release files include signatures
+- **Rich Release Notes**: Includes sizes, verification instructions
+
+### Verifying Artifacts
+
+To verify a downloaded binary:
+```bash
+cosign verify-blob \
+  --certificate adsb2loki-linux-amd64.pem \
+  --signature adsb2loki-linux-amd64.sig \
+  adsb2loki-linux-amd64
+```
+
+To verify container images:
+```bash
+cosign verify ghcr.io/rknightion/adsb2loki:latest
+```
+
+### Required Secrets
+
+For full functionality, configure these secrets:
+- `GIST_SECRET`: GitHub token with gist scope for coverage badges
+- `CODECOV_TOKEN`: (Optional) For private repos on Codecov
+
 ### Container Registry
 
 Images are automatically published to:
-```
-ghcr.io/rknightion/adsb2loki
-```
-
-Available tags:
-- `latest` - Latest stable release from main branch
-- `main` - Latest build from main branch
-- `v1.2.3` - Specific version tags
-- `main-sha-abc123` - Commit-specific builds
-
-### Using Pre-built Images
-
-Pull the latest image:
-```bash
-docker pull ghcr.io/rknightion/adsb2loki:latest
-```
-
-## Development
-
-### Running Tests
-
-```bash
-go test -v ./...
-```
-
-### Running Tests with Coverage
-
-```bash
-go test -v ./... -cover
-```
-
-### Code Formatting
-
-```bash
-go fmt ./...
-```
-
-### Linting
-
-```bash
-go vet ./...
-```
-
-## Multi-Architecture Support
-
-The project supports multiple architectures for both binaries and Docker images:
-
-### Binary Releases
-
-Pre-built binaries are available for:
-- **Linux**: amd64, arm64, armv7 (32-bit ARM), armv6 (Raspberry Pi)
-- **Windows**: amd64, arm64
-- **macOS**: amd64 (Intel), arm64 (Apple Silicon)
-
-### Docker Images
-
-Multi-architecture Docker images support:
-- `linux/amd64` - Standard x86-64 servers
-- `linux/arm64` - 64-bit ARM (AWS Graviton, Apple Silicon under emulation)
-- `linux/arm/v7` - 32-bit ARM (newer Raspberry Pi models)
-- `linux/arm/v6` - 32-bit ARM (older Raspberry Pi models)
-
-The correct architecture will be automatically selected when you pull the image.
-
-## Testing
-
-The project includes comprehensive unit tests for all major components:
-
-- **Common Package**: Data structure tests
-- **Loki Package**: HTTP client and payload formatting tests
-- **OpenTelemetry Package**: Basic client creation tests
-- **FlightAware Package**: Data fetching and transformation tests
-- **Models Package**: JSON marshaling/unmarshaling tests
-- **Main Package**: Configuration and environment variable tests
-
-Run tests with:
-```bash
-make test
-```
-
-Or with coverage:
-```bash
-make test-coverage
 ```
