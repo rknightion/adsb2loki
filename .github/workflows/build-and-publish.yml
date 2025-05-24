@@ -321,7 +321,7 @@ jobs:
 
     - name: Run Grype vulnerability scanner
       if: github.event_name != 'pull_request'
-      uses: anchore/scan-action@v3
+      uses: anchore/scan-action@v6
       with:
         image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
         fail-build: false
