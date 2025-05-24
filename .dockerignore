@@ -1,0 +1,45 @@
+# Git files
+.git
+.gitignore
+
+# GitHub files
+.github/
+
+# Documentation
+README.md
+LICENSE
+*.md
+
+# Go test files
+*_test.go
+
+# Environment files
+.env
+.env.*
+
+# Build artifacts
+adsb2loki
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test coverage
+*.out
+coverage.*
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Docker files (avoid recursive builds)
+Dockerfile*
+docker-compose*
+.dockerignore 

@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/rknightion/adsb2loki/pkg/common"
 )
 
 // Client represents a Loki client
@@ -25,15 +27,8 @@ func NewClient(url string) *Client {
 	}
 }
 
-// LogEntry represents a single log entry to be sent to Loki
-type LogEntry struct {
-	Timestamp time.Time
-	Labels    map[string]string
-	Line      string
-}
-
 // PushLogs sends log entries to Loki
-func (c *Client) PushLogs(ctx context.Context, entries []LogEntry) error {
+func (c *Client) PushLogs(ctx context.Context, entries []common.LogEntry) error {
 	if len(entries) == 0 {
 		return nil
 	}

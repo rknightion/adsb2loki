@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  adsb2loki:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/${GITHUB_REPOSITORY:-rknightion/adsb2loki}:latest
+    container_name: adsb2loki
+    restart: unless-stopped
+    environment:
+      - MODE=${MODE:-loki}
+      - LOKI_URL=${LOKI_URL:-http://loki:3100}
+      - AIRCRAFT_JSON_URL=${AIRCRAFT_JSON_URL:-http://skyaware:8080/skyaware/data/aircraft.json}
+      # OpenTelemetry environment variables (used when MODE=otel)
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      - OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:-}
+      - OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:-}
+      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS:-}
+    # Mount .env file if you prefer file-based configuration
+    # volumes:
+    #   - ./.env:/app/.env:ro
+    # Uncomment if you need to connect to other services
+    # networks:
+    #   - monitoring
+
+# Uncomment to run Loki locally for testing
+# services:
+#   loki:
+#     image: grafana/loki:latest
+#     ports:
+#       - "3100:3100"
+#     command: -config.file=/etc/loki/local-config.yaml
+#     networks:
+#       - monitoring
+
+# networks:
+#   monitoring:
+#     driver: bridge 
