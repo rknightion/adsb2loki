@@ -83,11 +83,26 @@ func TestFetchAndPushToLoki(t *testing.T) {
 		if entry.Labels["app"] != "flightaware" {
 			t.Errorf("Expected app label to be 'flightaware', got %s", entry.Labels["app"])
 		}
-		if i == 0 && entry.Labels["hex"] != "ABC123" {
-			t.Errorf("Expected hex to be 'ABC123', got %s", entry.Labels["hex"])
+		// Verify only 'app' label exists (no high cardinality labels)
+		if len(entry.Labels) != 1 {
+			t.Errorf("Expected only 1 label (app), got %d labels: %v", len(entry.Labels), entry.Labels)
 		}
-		if i == 1 && entry.Labels["hex"] != "DEF456" {
-			t.Errorf("Expected hex to be 'DEF456', got %s", entry.Labels["hex"])
+		// Verify structured metadata contains hex and flight
+		if i == 0 && entry.StructuredMetadata["hex"] != "ABC123" {
+			t.Errorf("Expected structured metadata hex to be 'ABC123', got %s", entry.StructuredMetadata["hex"])
+		}
+		if i == 0 && entry.StructuredMetadata["flight"] != "TEST123" {
+			t.Errorf("Expected structured metadata flight to be 'TEST123', got %s", entry.StructuredMetadata["flight"])
+		}
+		if i == 1 && entry.StructuredMetadata["hex"] != "DEF456" {
+			t.Errorf("Expected structured metadata hex to be 'DEF456', got %s", entry.StructuredMetadata["hex"])
+		}
+		if i == 1 && entry.StructuredMetadata["flight"] != "TEST456" {
+			t.Errorf("Expected structured metadata flight to be 'TEST456', got %s", entry.StructuredMetadata["flight"])
+		}
+		// Verify the data is in the log line
+		if !contains(entry.Line, "hex") || !contains(entry.Line, "flight") {
+			t.Errorf("Expected aircraft data in log line, got: %s", entry.Line)
 		}
 	}
 }

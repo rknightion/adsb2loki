@@ -36,11 +36,20 @@ func (c *Client) PushLogs(ctx context.Context, entries []common.LogEntry) error 
 	// Create the request payload
 	streams := make([]map[string]interface{}, 0)
 	for _, entry := range entries {
+		// Create value array - timestamp, line, and optionally structured metadata
+		value := []interface{}{
+			fmt.Sprintf("%d", entry.Timestamp.UnixNano()),
+			entry.Line,
+		}
+
+		// Add structured metadata if present
+		if len(entry.StructuredMetadata) > 0 {
+			value = append(value, entry.StructuredMetadata)
+		}
+
 		stream := map[string]interface{}{
 			"stream": entry.Labels,
-			"values": [][]string{
-				{fmt.Sprintf("%d", entry.Timestamp.UnixNano()), entry.Line},
-			},
+			"values": [][]interface{}{value},
 		}
 		streams = append(streams, stream)
 	}

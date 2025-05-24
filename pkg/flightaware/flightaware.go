@@ -46,19 +46,17 @@ func FetchAndPushToLoki(ctx context.Context, logger common.Logger) error {
 			Timestamp: time.Now(),
 			Line:      string(aircraftJSON),
 			Labels: map[string]string{
-				"app":      "flightaware",
-				"hex":      aircraft.Hex,
-				"flight":   aircraft.Flight,
-				"category": aircraft.Category,
+				"app": "flightaware",
+			},
+			StructuredMetadata: map[string]string{
+				"hex":    aircraft.Hex,
+				"flight": aircraft.Flight,
 			},
 		}
 
-		// Remove empty labels
-		if entry.Labels["flight"] == "" {
-			delete(entry.Labels, "flight")
-		}
-		if entry.Labels["category"] == "" {
-			delete(entry.Labels, "category")
+		// Add category to structured metadata if present
+		if aircraft.Category != "" {
+			entry.StructuredMetadata["category"] = aircraft.Category
 		}
 
 		entries = append(entries, entry)

@@ -7,9 +7,10 @@ import (
 
 // LogEntry represents a single log entry
 type LogEntry struct {
-	Timestamp time.Time
-	Labels    map[string]string
-	Line      string
+	Timestamp          time.Time
+	Labels             map[string]string
+	Line               string
+	StructuredMetadata map[string]string // Optional structured metadata
 }
 
 // Logger interface that can be implemented by different backends
